@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="profile">
+<h2 style="text-align:center; color:white; background-color:rgba(65, 62, 62, 1); width:100%; margin:auto; padding:5px;">
+    Welcome {{ user.username }} to your profile page.
+</h2>
+
+{% if car_list %}
+    <h2 style="text-align:center; color:white; background-color:black; width:40%; margin:auto; border-radius:5px; padding:15px; margin-top:50px;">
+        Total purchased models: {{ total_unique }}
+    </h2>
+
+    {% for car, count in car_list %}
+        <div class="car-details-container col-6">
+            <div>
+                <img src="{{ car.car_img.url }}" width="800px" alt="{{ car.car_title }}"/>
+            </div>
+            <div class="views_car_details col-6">
+                <h1>Car Title: {{ car.car_title }}</h1>
+                <h2>Car Price: {{ car.car_price }}</h2>
+                <h2>Total Purchased: {{ count }}</h2>
+                <h5>Description: {{ car.car_description }}</h5>
+                <h1>Brand: {{ car.brand.brand_name }}</h1>
+                <a class="btn btn-danger" href="#">Booked</a>
+            </div>
+        </div>
+    {% endfor %}
+{% else %}
+    <p style="text-align:center;margin:50px">No cars purchased yet.</p>
+{% endif %}
+
+<a class="btn btn-warning" href="{% url 'edit_profile' user.id %}">Edit Profile</a>
+
+</div>
+{% endblock %}

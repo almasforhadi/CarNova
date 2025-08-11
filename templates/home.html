@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="custom-layout">
+
+    <div class="left-side">
+        <h3>Explore your premium.</h3>
+        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages.</p>
+    </div>
+
+    <div class="right-side">
+          <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                <img src="{% static 'images/car1.png' %}" class="d-block " alt="...">
+                </div>
+                <div class="carousel-item">
+                <img src="{% static 'images/car2.png' %}" class="d-block " alt="...">
+                </div>
+                <div class="carousel-item">
+                <img src="{% static 'images/car3.png' %}" class="d-block " alt="...">
+                </div>
+                <div class="carousel-item">
+                <img src="{% static 'images/car4.png' %}" class="d-block " alt="...">
+                </div>
+                <div class="carousel-item">
+                <img src="{% static 'images/car5.png' %}" class="d-block " alt="...">
+                </div>
+            </div>
+         </div>
+    </div>
+</div>
+
+<div class='main-container'>
+
+   <div class='brand_model'>
+     {% for b in brands %}
+       <a class="brand-btn" href="{% url 'brand_wise_filter' b.slug %}">{{b.brand_name}}</a>
+     {% endfor %}
+   </div>
+   <div class="">
+      {% if filtered_car is not None %}
+           {% if filtered_car|length > 0 %}
+              <div class='Total_Found'>
+                  <h2>Total Filtered Car Found: {{ filtered_car|length }}</h2>
+              </div>
+              <div class='car_model'>
+                  {% for car in filtered_car %}
+                      <div class="card" style="width: 18rem;">
+                          <img src="{{ car.car_img.url }}" class="card-img-top" alt="{{ car.car_title }}">
+                          <div class="card-body">
+                              <h5 class="card-title">{{ car.car_title }}</h5>
+                              <p class="card-text">{{ car.car_description|truncatewords:7 }}</p>
+                              <h3 class="card-title">{{ car.car_price }}</h3>
+                              <h6 class="card-title">Available : {{ car.car_quantity }}</h6>
+                              <h5 class="card-title">{{ car.brand.brand_name }}</h5>
+                              <a class="btn btn-primary" href="{% url 'view_details' car.id %}">View Details</a>
+                          </div>
+                      </div>
+                  {% endfor %}
+              </div>
+            {% else %}
+              <h1 style="text-align:center;color:red;margin-top:20px;">Oops! Car is not available.</h1>
+            {% endif %}
+      {% else %}
+          <div class='All_Cars'>
+              <h2>Total Cars : {{ all_cars|length }}</h2>
+          </div>
+          <div class='car_model'>
+              {% for car in all_cars %}
+                  <div class="card" style="width: 18rem;">
+                      <img src="{{ car.car_img.url }}" class="card-img-top" alt="{{ car.car_title }}">
+                      <div class="card-body">
+                          <h5 class="card-title">{{ car.car_title }}</h5>
+                          <p class="card-text">{{ car.car_description|truncatewords:7 }}</p>
+                          <h3 class="card-title">{{ car.car_price }}</h3>
+                          <h6 class="card-title">Available : {{ car.car_quantity }}</h6>
+                          <h5 class="card-title">{{ car.brand.brand_name }}</h5>
+                          <a class="btn btn-primary" href="{% url 'view_details' car.id %}">View Details</a>
+                      </div>
+                  </div>
+              {% endfor %}
+          </div>
+          
+      {% endif %}
+   </div>
+</div>
+   
+
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static%}
+{% load crispy_forms_tags %}
+
+<div class="signup">
+      <form method='POST' style="width:60%; margin:auto">
+            {% csrf_token %}
+            <h2>Sign-in account</h2>
+            <!-- {{form | crispy}} -->
+            {% for fm in form%}
+            {{fm.label_tag}}
+            {{fm}}
+            {{fm.errors}} 
+            {% endfor %}
+            <button class="btn btn-primary mt-3">Submit</button>
+      </form>
+</div>
+{% endblock %}

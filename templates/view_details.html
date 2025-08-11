@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+{% load crispy_forms_tags %}
+
+   <div class = "car-details-container col-6">
+        <div>
+             <img src={{ car_item.car_img.url }} width="800px" alt={{ car_item.car_title }}/>
+        </div>
+        <div class="views_car_details col-6">
+             <h1>Car Title : {{car_item.car_title}}</h1>
+             <h2>Car Price : {{car_item.car_price}}</h2>
+             <h2>Quantity : {{car_item.car_quantity}}</h2>
+             <h5>Description : {{car_item.car_description}}</h5>
+             <h1>Brand : {{car_item.brand.brand_name}}</h1>
+             {% if request.user.is_authenticated %}
+                <a class="btn btn-danger" href="{% url 'buy_car' car_item.id %}"> Buy now </a>
+                {{message}}
+             {% endif %}
+
+        </div>
+    </div>
+    <hr>
+    <!--Comments are here -->
+    <div class="parent-post">
+     <h2>public comments are given below</h2>
+     {% for cm in comments %}
+     <div class='comment-post-template'>
+          <h3>{{cm.name}}</h3>
+          <p>{{cm.text}}</p>
+          <h5>{{cm.created_at}}</h5>
+          <hr>
+     </div>
+     {% endfor %}
+    </div>
+
+    <!--Comment Form -->
+    <hr>
+    <div class="form-div">
+     <form method='POST' style="width:40%; margin:auto" class="custom-form">
+          {% csrf_token %}
+          <h2>Comments your opinion</h2>
+          <!-- {{form | crispy}} -->
+          {% for fm in form %}
+               {{fm.label_tag}}
+               {{fm}}
+               {{fm.errors}} 
+          {% endfor %}
+          <button class="btn btn-outline-primary mt-3" style="display:block; margin:auto; width:100%">Submit</button>
+     </form>
+     <div>
+
+{% endblock %}
