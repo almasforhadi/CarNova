@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import dj_database_url 
 
 
 import environ
@@ -30,7 +31,8 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
+CSRF_TRUSTED_ORIGINS = ['https://capitalbank.onrender.com','https://*.127.0.0.1']
 
 
 # Application definition
@@ -92,18 +94,22 @@ WSGI_APPLICATION = 'car_website.wsgi.application'
 #     }
 # }
 
+# DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql',
+#        'NAME': env('DB_NAME'),
+#        'USER': env('DB_USER'),
+#        'PASSWORD': env('DB_PASSWORD'),
+#        'HOST': env('DB_HOST'),
+#        'PORT': env('DB_PORT'),
+#    }
+# }
+
 DATABASES = {
-   'default': {
-       'ENGINE': 'django.db.backends.postgresql',
-       'NAME': env('DB_NAME'),
-       'USER': env('DB_USER'),
-       'PASSWORD': env('DB_PASSWORD'),
-       'HOST': env('DB_HOST'),
-       'PORT': env('DB_PORT'),
-   }
+    'default': dj_database_url.config(
+        default='postgresql://carnova_db_user:UDfMCq3746yGZygYXeVIpniCB24NMT3L@dpg-d2ct7cogjchc739qshp0-a.oregon-postgres.render.com/carnova_db',
+    )
 }
-
-
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
